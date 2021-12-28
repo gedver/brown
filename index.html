@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="row justify-content-md-center mt-3">
+            
+            <div class="col col-md-8">
+                <button type="button" class="btn btn-primary" onclick="cv.upperCase(this)" id="uppercase">
+                    DIDELĖS raidės
+                </button>
+                <button type="button" class="btn btn-primary" onclick="cv.merge(this)" id="uppercase">
+                    Apjungti
+                </button>
+                <button type="button" class="btn btn-primary" onclick="cv.replace()" id="uppercase">
+                    Keisti VGTU
+                </button>
+                <button type="button" class="btn btn-primary" onclick="cv.remove(this)" id="uppercase">
+                    Ištrinti
+                </button>
+                <button type="button" class="btn btn-primary" onclick="cv.numerate(this)" id="uppercase">
+                    Numeruoti
+                </button>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            <div class="col col-md-8">
+                <div class="input-group">
+                    <span class="input-group-text">Data ir įrašas</span>
+                    <input type="text" aria-label="Data" class="form-control" placeholder="Data" id="record-date">
+                    <input type="text" aria-label="Įrašas" class="form-control" placeholder="Įrašas" id="record-text">
+                    <button type="button" class="btn btn-primary" onclick="cv.add(this)">
+                        Pridėti įrašą
+                    </button>
+                </div>
+            </div>
+           
+        </div>
+        <div class="row justify-content-md-center mt-3">
+            
+            <div class="col col-md-8">
+                <h3>
+                    Apie
+                </h3>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Vardas Pavardė</th>
+                        <td>Vardenis Pavardenis</td>
+                    </tr>
+                    <tr>
+                        <th>Metai</th>
+                        <td>1999-09-09</td>
+                    </tr>
+                    <tr>
+                        <th>El. paštas</th>
+                        <td>email@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <th>Tel. nr</th>
+                        <td>+370 684 84 540</td>
+                    </tr>
+                </table>
+            </div>
+            
+        </div>
+        
+        <div class="row justify-content-md-center mt-3">
+            <div class="col col-md-8">
+                <h3>
+                    Įrašai
+                </h3>
+                <table class="table table-bordered" id="records">
+                    <tr>
+                        <th>#</th>
+                        <th>Data</th>
+                        <th>Aprašymas</th>
+                    </tr>
+                    <tr class="record">
+                        <td>1</td>
+                        <td class="date">2021.02</td>
+                        <td class="description">Aprašymas VgTU</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+
+
+      
+  
+      <script>
+        const cv = {
+          upperCaseState: false,
+          numerateState: false,
+          
+          upperCase: (event) => {
+            if(!this.upperCaseState) {
+  
+              document.querySelectorAll('td, th').forEach(element => {
+                element.innerHTML = element.textContent.toUpperCase()
+              });
+  
+              this.upperCaseState = true
+  
+              event.innerHTML = 'mažosios raidės'
+  
+              return;
+            }
+  
+            document.querySelectorAll('td, th').forEach(element => {
+                element.innerHTML = element.textContent.toLowerCase()
+            });
+  
+            this.upperCaseState = false
+  
+            event.innerHTML = 'DIDELĖS raidės'
+  
+          },
+          merge: (event) => {
+            document.querySelectorAll('tr.record').forEach(element => {
+                element.querySelector('.description').innerHTML = element.querySelector('.date').textContent + ' : ' + element.querySelector('.description').textContent
+                console.log(element.querySelector('.description'))
+            })
+          },
+          replace: () => {
+            document.querySelectorAll('td, th').forEach(element => {
+                element.innerHTML = element.textContent.replace(new RegExp('vgtu', 'gim'), `<a href="https://vilniustech.lt">VGTU</a>`)
+            });
+          },
+          add: (event) => {
+            let date   = document.querySelector('input#record-date'),
+                record = document.querySelector('input#record-text'),
+                serial = document.querySelectorAll('table#records tr').length
+
+            
+            
+            document.querySelector('table#records tbody').insertAdjacentHTML('beforeend', `
+                <tr class="record">
+                    <td>
+                        ${serial}
+                    </td>
+                    <td class="date">
+                        ${date.value}
+                    </td>
+                    <td class="description">
+                        ${record.value}
+                    </td>
+                </tr>
+            `);
+
+            date.value = ''
+            record.value = ''
+
+          },
+          remove: (event) => {
+            
+            var table = document.querySelector('table#records > tbody')
+
+            table.removeChild(table.lastElementChild)
+
+            console.log('hf')
+
+          },
+          numerate: (event) => {
+
+            let numbers = [
+                'https://freesvg.org/storage/img/thumb/Number-0-handwritten.png',
+                'https://freesvg.org/storage/img/thumb/0-9-Handwritten-7.png',
+                'https://freesvg.org/storage/img/thumb/0-9-Handwritten-6.png',
+                'https://freesvg.org/storage/img/thumb/0-9-Handwritten-5.png',
+                'https://freesvg.org/storage/img/thumb/0-9-Handwritten-4.png',
+                'https://freesvg.org/storage/img/thumb/Number-5-handwritten.png',
+                'https://freesvg.org/storage/img/thumb/0-9-Handwritten-2.png',
+                'https://freesvg.org/storage/img/thumb/0-9-Handwritten-8.png',
+                'https://freesvg.org/storage/img/thumb/0-9-Handwritten-1.png',
+                'https://freesvg.org/img/0-9-Handwritten-9.png'
+            ]
+
+            if(!this.numerateState) {
+
+                document.querySelectorAll('table#records > tbody > tr.record').forEach((element, index) => {
+
+                    let img = numbers[(index+1)]
+
+                    element.querySelector('td.date').insertAdjacentHTML('afterbegin', `
+                        <img width="25" src="${img}" class="numeration" />
+                    `)
+                    
+                })
+                
+                this.numerateState = true
+
+                event.innerHTML = 'Naikinti numeracija'
+
+                return
+
+            }
+
+
+            document.querySelectorAll('img.numeration').forEach(element => {
+                element.remove()
+            })
+
+            this.numerateState = false
+
+            event.innerHTML = 'Numeruoti'
+
+          }
+        }
+
+
+       
+  
+      
+      </script>
+</body>
+</html>

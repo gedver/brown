@@ -1,28 +1,37 @@
 <template>
+
   <v-container style="max-width: 600px;">
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="6">
-          <v-text-field v-model="searchQuery"  label="Event"></v-text-field>
-        </v-col>
-      </v-row >
-      <v-btn class="mx-0" depressed @click="search()" > Post </v-btn>
-      <v-btn class="mx-0" depressed @click="toUpper()" > {{ this.upperState ? 'To lower case' : 'To upper case' }} </v-btn>
-      <v-btn class="mx-0" depressed @click="numerate()" > {{ this.numerateState ? 'Numerate Turn Off' : 'Numerate Turn On' }} </v-btn>
-      <v-btn class="mx-0" depressed @click="toPDF()" > to PDF </v-btn>
-    </v-container>
-    <v-timeline dense clipped>
 
-      
+    <v-card class="mx-auto"  dark max-width="600">
+      <v-card-title>
+        <span class="text-h6 font-weight-light">Event search</span>
+      </v-card-title>
+      <v-card-text class="text-h5 font-weight-bold">
+        <v-row>
+          <v-col cols="12" md="8">
+            <v-text-field v-model="searchQuery"  label="Event search"></v-text-field>
+            
+          </v-col>
+          <v-col cols="12" md="2">
+            <v-btn class="mx-0" depressed @click="search()" > Search </v-btn>
+          </v-col>
+        </v-row >
+      </v-card-text>
 
-      <v-timeline-item fill-dot class="white--text mb-12" color="orange" large>
-      
-        <template v-slot:icon>
-          <span></span>
-        </template>
-        <v-container>
-          <v-row>
-            <v-col cols="12" md="6">
+    </v-card>
+    <v-card class="mx-auto" color="#26c6da" dark max-width="600" style="margin-top: 1rem;">
+      <v-card-text class="text-h5 font-weight-bold">
+        <v-row style="padding: 1rem 0;">
+          <v-btn class="mx-1" depressed @click="toUpper()" > {{ this.upperState ? 'To lower case' : 'To upper case' }} </v-btn>
+          <v-btn class="mx-1" depressed @click="numerate()" > {{ this.numerateState ? 'Numerate Turn Off' : 'Numerate Turn On' }} </v-btn>
+          <v-btn class="mx-1" depressed id="topdf"> to PDF </v-btn>
+        </v-row >
+      </v-card-text>
+    </v-card>
+    <v-card class="mx-auto" dark max-width="600" style="margin-top: 1rem;">
+      <v-card-text class="text-h5 font-weight-bold">
+        <v-row style="padding: 1rem 0;">
+          <v-col cols="12" md="4">
               <v-text-field v-model="inputEvent"  label="Event"></v-text-field>
             </v-col>
             <v-col cols="12" md="3">
@@ -32,27 +41,28 @@
             <v-col cols="12" md="3">
               <v-text-field v-model="inputDateTill"  label="Date till"></v-text-field>
             </v-col>
-
-          </v-row >
-          
-          <v-btn class="mx-0" depressed @click="addEvent()" > Post </v-btn>
-            
-        </v-container>
-          
-        
-      </v-timeline-item>
-
+            <v-col cols="12" md="2">
+              <v-btn class="mx-0" depressed @click="addEvent()" > Post </v-btn>
+            </v-col>
+        </v-row >
+      </v-card-text>
+    </v-card>
+    <br/>
+  <div id="cvtimeline">
+    <h1>
+      Events
+    </h1>
+    <v-timeline max-width="600" dense clipped style="margin-top: 1rem;">
       <v-slide-x-transition group>
         <v-timeline-item v-for="(event, index) in timeline" :key="event.id" class="mb-4" color="pink" small >
           <v-row justify="space-between">
-            <v-col cols="1" v-if="numerateState">
+            <v-col cols="12" md="1" v-if="numerateState">
               <img :src="numbers['i'+index]" width="25"/>
             </v-col>
-            <v-col cols="5" v-text="event.event"></v-col>
-            <v-col class="text-center" cols="5" v-text="event.dateFrom + ' - ' + event.dateTill"></v-col>
-            <v-col cols="1">
-            <v-btn class="mx-0" color="error" plain @click="removeEvent(event.id)">Delete</v-btn>
-            
+            <v-col cols="12" md="4" v-text="event.event"></v-col>
+            <v-col class="text-center" cols="12" md="4" v-text="event.dateFrom + ' - ' + event.dateTill"></v-col>
+            <v-col cols="12" md="2">
+              <v-btn class="delete-btn" color="error" plain @click="removeEvent(event.id)">Delete</v-btn>
             </v-col>
           </v-row>
         </v-timeline-item>
@@ -70,10 +80,14 @@
 
 
     </v-timeline>
+    </div>
+    
   </v-container>
+
 </template>
 
 <script>
+
   export default {
     name: 'HelloWorld',
 
@@ -127,10 +141,8 @@
     },
     methods: {
       toPDF() {
-        
-        var pageUrl = encodeURIComponent(window.location.href);
-        window.open('https://www.sejda.com/html-to-pdf?save-link=' + pageUrl);
-        
+        // var pageUrl = encodeURIComponent(window.location.href);
+        // window.open('https://www.sejda.com/html-to-pdf?save-link=' + pageUrl);
       },
       toUpper() {
 
